@@ -1,10 +1,5 @@
-numpy
-torch
 torchaudio
 torchvision
-openai-whisper
-ffmpeg-python
-regex
 tqdmcertifi==2024.8.30
 charset-normalizer==3.4.0
 config==0.5.1
