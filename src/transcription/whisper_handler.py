@@ -8,7 +8,7 @@ class WhisperTranscriber:
     def __init__(self, model_name=WHISPER_MODEL):
         # Check if CUDA is available
         self.device = 'cuda' if torch.cuda.is_available() else 'cpu'
-        # Load the model
+        # Load in the model
         self.model = whisper.load_model(model_name).to(self.device)
 
     def transcribe(self, audio_data, start_time):
