@@ -31,10 +31,5 @@ def simulate_lecture_updates(input_file, output_file):
                 # Sleep for the generated interval
                 time.sleep(interval)
 
-
-# File paths for input and output
-input_file_path = "lecture_input.txt"  # The input file containing the lecture text without timestamps
-output_file_path = "simulated_lecture_output.txt"  # The output file where updated text with timestamps will be written
-
 # Simulate updating the text file
-simulate_lecture_updates(input_file_path, output_file_path)
+simulate_lecture_updates("lecture_input.txt", "simulated_lecture_output.txt")

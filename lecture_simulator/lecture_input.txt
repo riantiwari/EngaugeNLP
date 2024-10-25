@@ -1,4 +1,5 @@
 Hello class, today we are discussing the Invertible Matrix Theorem.
+My name is Mr. Conway and I will be your instructor for today.
 This is one of the most important concepts in Linear Algebra.
 Recall, a matrix is invertible if it satisfies several equivalent conditions.
 For example, one condition is that the determinant of the matrix is non-zero.

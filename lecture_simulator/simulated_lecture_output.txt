@@ -1,7 +1,8 @@
 00:00 - Hello class, today we are discussing the Invertible Matrix Theorem.
-00:04 - This is one of the most important concepts in Linear Algebra.
-00:08 - Recall, a matrix is invertible if it satisfies several equivalent conditions.
-00:11 - For example, one condition is that the determinant of the matrix is non-zero.
-00:15 - Another key point is that an invertible matrix has a unique solution for every vector in R^n.
-00:20 - We will also explore the relationship between invertibility and row reduction.
-00:24 - If a matrix can be row reduced to the identity matrix, it is invertible.
+00:06 - My name is Mr. Conway and I will be your instructor for today.
+00:12 - This is one of the most important concepts in Linear Algebra.
+00:18 - Recall, a matrix is invertible if it satisfies several equivalent conditions.
+00:23 - For example, one condition is that the determinant of the matrix is non-zero.
+00:27 - Another key point is that an invertible matrix has a unique solution for every vector in R^n.
+00:30 - We will also explore the relationship between invertibility and row reduction.
+00:34 - If a matrix can be row reduced to the identity matrix, it is invertible.
