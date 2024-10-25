@@ -1,6 +1,5 @@
 from qdrant_client import QdrantClient
 from qdrant_client.http import models
-import numpy as np
 from sentence_transformers import SentenceTransformer
 
 
@@ -45,11 +44,14 @@ class QdrantManager:
         )
         self.current_id += 1
 
-    def search_similar(self, query_vector: np.ndarray, limit: int = 5):
+    def search_similar(self, prompt, limit: int = 5):
+        embedding = self.model.encode(prompt)
+
         """Search for similar texts in the collection"""
         results = self.client.search(
             collection_name=self.collection_name,
-            query_vector=query_vector.tolist(),
+            query_vector=embedding.tolist(),
             limit=limit
         )
+
         return results
