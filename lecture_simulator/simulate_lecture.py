@@ -4,6 +4,7 @@ from datetime import timedelta
 
 
 def simulate_lecture_updates(input_file, output_file):
+    open(output_file, "w").close()
     # Starting time at 0:00
     current_time = timedelta(seconds=0)
 
@@ -31,5 +32,6 @@ def simulate_lecture_updates(input_file, output_file):
                 # Sleep for the generated interval
                 time.sleep(interval)
 
-# Simulate updating the text file
-simulate_lecture_updates("lecture_input.txt", "simulated_lecture_output.txt")
+# # # Simulate updating the text file
+# open("simulated_lecture_output.txt", "w").close()
+# simulate_lecture_updates("lecture_input.txt", "simulated_lecture_output.txt")

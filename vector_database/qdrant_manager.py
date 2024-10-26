@@ -1,6 +1,8 @@
 from qdrant_client import QdrantClient
 from qdrant_client.http import models
 from sentence_transformers import SentenceTransformer
+import requests
+url = "http://localhost:11434/api/chat"
 
 
 class QdrantManager:
@@ -9,6 +11,7 @@ class QdrantManager:
         self.collection_name = collection_name
         self.current_id = 0
         self.model = SentenceTransformer('all-MiniLM-L6-v2')
+        self.setup_collection()
 
     def setup_collection(self, vector_size=384):  # 384 is the size for all-MiniLM-L6-v2
         """Initialize the Qdrant collection"""
@@ -55,3 +58,35 @@ class QdrantManager:
         )
 
         return results
+
+    def chat(self, prompt):
+        results = self.search_similar(prompt)
+
+        combined_text = ""
+
+        for result in results:
+            print(f"Text: {result.payload['text']}")
+            combined_text += result.payload['text'] + " "
+
+        return llama3(prompt + "Context: " + combined_text)
+
+
+def llama3(prompt):
+    data = {
+        "model": "llama3",
+        "messages": [
+            {
+                "role": "user",
+                "content": prompt
+            }
+        ],
+        "stream": False
+    }
+
+    headers = {
+        'Content-Type': 'application/json'
+    }
+
+    response = requests.post(url, headers=headers, json=data)
+
+    return response.json()['message']['content']
