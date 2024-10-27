@@ -1,4 +1,6 @@
 import streamlit as st
+
+from transcription import transcribe_video_real_time
 from vector_database.qdrant_manager import QdrantManager
 import time
 import threading
@@ -25,39 +27,20 @@ def process_file(file_path: str, qdrant_mgr: QdrantManager):
                 print(f"Added to Qdrant database: {line}...")
 
 
-
 @st.cache_resource
-def initialize_threads(file_path, input_file):
+def initialize_threads():
     """Initialize and start the file watcher and lecture simulator threads once."""
     qdrant_mgr = QdrantManager()  # Singleton instance of QdrantManager
 
-    # Start file-watcher thread
-    file_watcher_thread = threading.Thread(
-        target=process_file, args=(file_path, qdrant_mgr), daemon=True
-    )
-    file_watcher_thread.start()
-
-    # Start lecture simulation thread
-    lecture_sim_thread = threading.Thread(
-        target=simulate_lecture_updates, args=(input_file, file_path), daemon=True
-    )
-    lecture_sim_thread.start()
-
-    return qdrant_mgr, file_watcher_thread, lecture_sim_thread
+    return qdrant_mgr
 
 
 # Initialize threads once, outside Streamlit's re-run scope
 if "initialized" not in st.session_state:
     st.session_state["initialized"] = True  # Flag to prevent re-initialization
-    # Prepare files
-    open("lecture_simulator/simulated_lecture_output.txt", "w").close()
-    file_to_watch = "lecture_simulator/simulated_lecture_output.txt"
-    input_file = "lecture_simulator/lecture_input.txt"
 
     # Start threads
-    st.session_state["qdrant_mgr"], st.session_state["file_watcher_thread"], st.session_state["lecture_sim_thread"] = initialize_threads(
-        file_to_watch, input_file
-    )
+    st.session_state["qdrant_mgr"] = initialize_threads()
 
 # Streamlit UI
 st.title("In Class Chatbot")

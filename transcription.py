@@ -6,12 +6,15 @@ import spacy
 import logging
 import sys
 
+from vector_database.qdrant_manager import QdrantManager
+
+
 def format_timestamp(seconds):
     minutes = int(seconds // 60)
     secs = int(seconds % 60)
     return f"{minutes:02d}:{secs:02d}"
 
-def transcribe_video_real_time(video_file, chunk_duration=5.0, overlap=2.0):
+def transcribe_video_real_time(video_file, chunk_duration=20.0, overlap=2.0):
     """
     Transcribe a video file in real-time by sentences with accurate timestamps.
 
@@ -27,6 +30,8 @@ def transcribe_video_real_time(video_file, chunk_duration=5.0, overlap=2.0):
 
     # Initialize the Whisper model
     model = whisper.load_model("small")
+
+    qdrant_manager = QdrantManager()
 
 
     # Load SpaCy model
@@ -114,6 +119,8 @@ def transcribe_video_real_time(video_file, chunk_duration=5.0, overlap=2.0):
                                 # For simplicity, assign the current chunk's start_time
                                 timestamp = format_timestamp(seg_start)
                                 print(f"{timestamp} - \"{sentence_text}\"")
+                                qdrant_manager.add_text(f"{timestamp} - \"{sentence_text}\"")
+
 
                         # Update buffer with the last (possibly incomplete) sentence
                         if sentences:
@@ -147,4 +154,4 @@ def transcribe_video_real_time(video_file, chunk_duration=5.0, overlap=2.0):
 if __name__ == "__main__":
     print("Starting transcription...")
     video_file = "sample_video.mp4"  # Replace with your video file path
-    transcribe_video_real_time(video_file, chunk_duration=5.0, overlap=2.0)
+    transcribe_video_real_time(video_file, chunk_duration=20.0, overlap=2)

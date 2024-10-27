@@ -2,8 +2,10 @@ from qdrant_client import QdrantClient
 from qdrant_client.http import models
 from sentence_transformers import SentenceTransformer
 import requests
+import os
 url = "http://localhost:11434/api/chat"
 
+os.environ["TOKENIZERS_PARALLELISM"] = "false"
 
 class QdrantManager:
     def __init__(self, collection_name="lecture_collection"):
@@ -47,7 +49,7 @@ class QdrantManager:
         )
         self.current_id += 1
 
-    def search_similar(self, prompt, limit: int = 5):
+    def search_similar(self, prompt, limit: int = 30):
         embedding = self.model.encode(prompt)
 
         """Search for similar texts in the collection"""
