@@ -16,7 +16,7 @@ url = "http://localhost:11434/api/chat"
 # Custom LLM wrapper for Llama model
 class LlamaLLM(LLM):
     def __init__(self, **kwargs):
-        super().__init__(**kwargs)  # Make sure to call the parent constructor with kwargs
+        super().__init__(**kwargs)  # Call the parent constructor with kwargs
 
     def _call(self, prompt: str, stop=None):
         """Calls the local Llama model API with the prompt."""
@@ -56,15 +56,14 @@ class QdrantManager:
         self.llm = LlamaLLM()
         self.memory = ConversationBufferMemory()
 
-        # Updated PromptTemplate
+        # PromptTemplate to handle the combination of query and context
         self.prompt_template = PromptTemplate(
-            input_variables=["input"],  # Ensure variables align
-            template="{input}"  # Template now includes all variables
+            input_variables=["history", "input"],  # Ensure history is an input variable
+            template="{history}\n{input}"  # Include history in template
         )
         self.llm_chain = LLMChain(llm=self.llm, prompt=self.prompt_template, memory=self.memory)
-        # print(self.prompt_template.input_variables)
 
-    def setup_collection(self, vector_size=384):  # 384 is the size for all-MiniLM-L6-v2
+    def setup_collection(self, vector_size=384):
         """Initialize the Qdrant collection"""
         try:
             self.client.delete_collection(self.collection_name)
@@ -87,6 +86,7 @@ class QdrantManager:
             "text": text,
             "time_stamp": time_stamp
         }
+
         self.client.upsert(
             collection_name=self.collection_name,
             points=[
@@ -99,25 +99,42 @@ class QdrantManager:
         )
         self.current_id += 1
 
-    def search_similar(self, prompt, limit: int = 30):
+    def search_similar(self, prompt, limit: int = 30, similarity_threshold: float = 0.2):
         embedding = self.model.encode(prompt)
         results = self.client.search(
             collection_name=self.collection_name,
             query_vector=embedding.tolist(),
-            limit=limit
+            limit=limit,
+            with_payload=True
         )
-        return results
+
+        filtered_results = []
+
+        # print("Top 3 most similar documents:")
+        for result in results:
+            if result.score >= similarity_threshold:
+                filtered_results.append(result)
+                print(f"Document: {result.payload['text']}")
+                print(f"Score: {result.score}")  # This is the similarity score
+
+        return filtered_results
 
     def chat(self, prompt):
         # Search for similar context in the database
         results = self.search_similar(prompt)
+
+        if not results:
+            return "No relevant context found. How can I help you?"
+
+
         combined_text = " ".join([result.payload['text'] for result in results])
 
-        input = f"Context: {combined_text}\nQuery: {prompt}"
+        input = f"Context: {combined_text}\nUser: {prompt}\n"
 
-        # Use LangChain's LLMChain with history, context, and query
+        # Use LangChain's LLMChain to handle the prompt with history and context
         response = self.llm_chain.predict(input=input)
-        self.memory.chat_memory.add_user_message(prompt)
-        self.memory.chat_memory.add_ai_message(response)
+
+        # Print memory for debugging
+        print("Conversation History in Memory:", self.memory.load_memory_variables({})['history'])
 
         return response
