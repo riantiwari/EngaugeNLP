@@ -119,7 +119,7 @@ def transcribe_video_real_time(video_file, chunk_duration=20.0, overlap=2.0):
                                 # For simplicity, assign the current chunk's start_time
                                 timestamp = format_timestamp(seg_start)
                                 print(f"{timestamp} - \"{sentence_text}\"")
-                                qdrant_manager.add_text(f"{timestamp} - \"{sentence_text}\"")
+                                qdrant_manager.add_text(sentence_text, timestamp)
 
 
                         # Update buffer with the last (possibly incomplete) sentence
