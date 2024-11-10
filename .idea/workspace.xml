@@ -6,6 +6,7 @@
   <component name="ChangeListManager">
     <list default="true" id="35c37619-afda-4b56-8cf6-548a17a3df3b" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/LlamaLLM.py" beforeDir="false" afterPath="$PROJECT_DIR$/vector_database/LlamaLLM.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/vector_database/qdrant_manager.py" beforeDir="false" afterPath="$PROJECT_DIR$/vector_database/qdrant_manager.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -57,6 +58,7 @@
       <recent name="$PROJECT_DIR$" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/vector_database" />
       <recent name="$PROJECT_DIR$" />
     </key>
   </component>

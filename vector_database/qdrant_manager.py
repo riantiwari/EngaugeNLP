@@ -1,47 +1,14 @@
-from langchain.llms.base import LLM  # Correct import path
 from qdrant_client import QdrantClient
 from qdrant_client.http import models
 from sentence_transformers import SentenceTransformer
 from langchain.chains import LLMChain
 from langchain.memory import ConversationBufferMemory
 from langchain.prompts import PromptTemplate
-import requests
 import os
+from vector_database.LlamaLLM import LlamaLLM
 
 # Environment setup
 os.environ["TOKENIZERS_PARALLELISM"] = "false"
-url = "http://localhost:11434/api/chat"
-
-
-# Custom LLM wrapper for Llama model
-class LlamaLLM(LLM):
-    def __init__(self, **kwargs):
-        super().__init__(**kwargs)  # Call the parent constructor with kwargs
-
-    def _call(self, prompt: str, stop=None):
-        """Calls the local Llama model API with the prompt."""
-        data = {
-            "model": "llama3",
-            "messages": [
-                {
-                    "role": "user",
-                    "content": prompt
-                }
-            ],
-            "stream": False
-        }
-
-        headers = {
-            'Content-Type': 'application/json'
-        }
-
-        response = requests.post(url, headers=headers, json=data)
-        response_data = response.json()
-        return response_data['message']['content']
-
-    @property
-    def _llm_type(self):
-        return "local_llama3"
 
 
 class QdrantManager:
