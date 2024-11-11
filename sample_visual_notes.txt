@@ -1,0 +1,23 @@
+0:43 - Intro: Before Calc 3, everything is in 2D or 1D. In Calc 3, we need 3 dimensions.
+1:17 - Transition from 1D to 2D: This figure demonstrates the progression from a one-dimensional number line (x-axis) to a two-dimensional plane with both x and y axes, setting the stage for further expansion into 3D space.
+2:00 - For 3D, we need to add an a × b, which is perpendicular to the other two. Idea: z-axis up out of screen?
+2:50 - First we’ll redraw the x, y-axis!
+3:20 - Representation of the XY-Plane: This diagram illustrates the xy-plane as a rectangular grid, marking the x and y axes as perpendicular, fundamental to understanding the layout in 3D space.
+3:48 - Tabletop Analogy for the XY-Plane: This illustration uses a tabletop as a metaphor to help visualize the xy-plane in 3D space, with the x and y axes positioned horizontally, preparing for the addition of a perpendicular z-axis.
+5:22 - Introducing the Z-Axis in 3D Space: This diagram shows the addition of the z-axis, oriented vertically and perpendicular to the xy-plane, completing the 3D coordinate system and enabling full spatial representation.
+6:08 - Now we have 3D space!
+6:42 - 3D Axes without Tabletop Analogy: This simplified diagram presents the x, y, and z axes without the tabletop reference, focusing on their orientation and perpendicular arrangement in 3D space.
+7:44 - Exploring the XY-Plane in 3D Space: This diagram emphasizes the position of the xy-plane within the 3D coordinate system, highlighting its relation to the x, y, and z axes.
+8:20 - The XZ-Plane in 3D Space: This diagram illustrates the xz-plane, showing its alignment with the x and z axes while the y-axis extends perpendicular to it, providing a foundational view of one of the three primary planes in 3D space.
+8:47 - The YZ-Plane in 3D Space: This diagram depicts the yz-plane, where the y and z axes form a vertical plane, with the x-axis extending perpendicular to it, representing another primary plane in 3D space.
+9:12 - Division of 3D Space into Octants: This illustration shows the intersection of the xy, xz, and yz planes, which divides 3D space into eight regions called octants. The first octant, where x, y, and z are all greater than or equal to zero, is highlighted.
+12:02 - To plot a point in 3D, we’ll need 3 coords: (x, y, z)
+13:38 - Let’s plot the point (2, 3, 5).
+14:00 - Grid Representation of the XY-Plane: This diagram depicts the xy-plane as a grid, similar to a tabletop, with a point marked at coordinates (2, 3, 0), showing the position along the x and y axes with no z displacement.
+15:34 - Plotting a Point in 3D: To locate the point (2, 3, 5), we start at (2, 3) on the xy-plane, then move up 5 units along the z-axis, marking the full 3D position.
+17:38 - Using a Box to Visualize 3D Coordinates: This diagram demonstrates how drawing a box can help locate points in 3D space, such as (2, 3, 5), by visualizing the distances along the x, y, and z axes from the origin. Additional labeled points provide reference for each axis dimension.
+20:58 - A few more points: P = (0, 0, 0), Q = (-2, 3, 5), R = (0, -4, -1), S = (6, 1, -1)
+23:27 - Distance Between Points: Recall in Calc 1, or precalc, if we have P = (x1, y1) & Q = (x2, y2) the dist. b/w them is…
+27:03 - Equation of a Circle in 2D: This diagram shows the general equation of a circle centered at (x0, y0) with radius R. The circle is defined by its edge, while the interior points are not part of the circle, illustrating that only the perimeter satisfies the equation.
+28:55 - Definition of a Disk in 2D: This diagram presents the inequality defining a disk centered at ((x0, y0)) with radius (R), which includes all points within and on the circle, represented by a filled-in area.
+30:33 - Equation of a Sphere and Ball in 3D: This diagram shows the formula for a sphere centered at ((x0, y0, z0)) with radius (R), defined by the equality. An example sphere centered at (2, 3, 5) with radius 4 is illustrated. The inequality represents a ball, which includes all points within and on the surface of the sphere.
