@@ -1,20 +1,16 @@
 import streamlit as st
-
 from transcription import transcribe_video_real_time
 from vector_database.qdrant_manager import QdrantManager
 import time
 import threading
 from lecture_simulator.simulate_lecture import simulate_lecture_updates
+import threading
 
 
-
-
-@st.cache_resource
-def initialize_threads():
-    """Initialize and start the file watcher and lecture simulator threads once."""
-    qdrant_mgr = QdrantManager()  # Singleton instance of QdrantManager
-
-    return qdrant_mgr
+def start_transcription(qdrant_manager: QdrantManager = None):
+    print("Starting transcription...")
+    video_file = "sample_video.mp4"  # Replace with your video file path
+    transcribe_video_real_time(video_file, chunk_duration=20.0, overlap=2, qdrant_manager=qdrant_manager)
 
 
 # Initialize threads once, outside Streamlit's re-run scope
@@ -22,7 +18,10 @@ if "initialized" not in st.session_state:
     st.session_state["initialized"] = True  # Flag to prevent re-initialization
 
     # Start threads
-    st.session_state["qdrant_mgr"] = initialize_threads()
+    st.session_state["qdrant_mgr"] = QdrantManager()
+    transcription_thread = threading.Thread(target=start_transcription, args=(st.session_state["qdrant_mgr"],))
+    transcription_thread.start()
+
 
 # Streamlit UI
 st.title("In Class Chatbot")

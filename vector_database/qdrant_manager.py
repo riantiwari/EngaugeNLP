@@ -18,6 +18,7 @@ class QdrantManager:
         self.current_id = 0
         self.model = SentenceTransformer('all-MiniLM-L6-v2')
         self.setup_collection()
+        self.drawing_transcription = {}
 
         # Initialize LLM and LangChain components
         self.llm = LlamaLLM()
@@ -93,10 +94,20 @@ class QdrantManager:
         if not results:
             return "No relevant context found. How can I help you?"
 
+        drawing_context = []
+
+        for result in results:
+            timestamp = int(result.payload['time_stamp'])
+
+            for timer in range(timestamp - 5, timestamp + 6):
+                if timer in self.drawing_transcription:
+                    text = self.drawing_transcription[timer]
+                    drawing_context.append(text)
 
         combined_text = " ".join([result.payload['text'] for result in results])
+        drawing_text = " ".join(drawing_context)
 
-        input = f"Context: {combined_text}\nUser: {prompt}\n"
+        input = f"Context: {combined_text}\nTeacher's Drawing: {drawing_text}\nUser: {prompt}\n"
 
         # Use LangChain's LLMChain to handle the prompt with history and context
         response = self.llm_chain.predict(input=input)
@@ -105,3 +116,6 @@ class QdrantManager:
         print("Conversation History in Memory:", self.memory.load_memory_variables({})['history'])
 
         return response
+
+    def add_drawing_text(self, text, time_stamp):
+        self.drawing_transcription[time_stamp] = text
