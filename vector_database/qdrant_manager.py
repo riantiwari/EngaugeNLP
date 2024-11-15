@@ -24,10 +24,28 @@ class QdrantManager:
         self.llm = LlamaLLM()
         self.memory = ConversationBufferMemory()
 
+
+        # Kshitij Prompt
+        rules = """
+                You are an AI assistant specifically trained to answer questions based ONLY on the provided lecture content. 
+                Your knowledge is limited to the information given in the context. Follow these rules strictly:
+
+                - Only use information explicitly stated in the provided context.
+                - If the context doesn't contain relevant information to answer the question, say 
+                  "I don't have enough information to answer that question based on the provided lecture content."
+                - Do not use any external knowledge or make assumptions beyond what's in the context.
+                - If asked about topics not covered in the context, state that the lecture content doesn't cover that topic.
+                - Be precise and concise in your answers, citing specific parts of the context when possible.
+                - If the question is ambiguous or unclear based on the context, ask for clarification.
+                - Never claim to know more than what's provided in the context.
+                - If the context contains conflicting information, point out the inconsistency without resolving it.
+                - Remember, your role is to interpret and relay the information from the lecture content, not to provide additional knowledge or opinions.
+                """
+
         # PromptTemplate to handle the combination of query and context
         self.prompt_template = PromptTemplate(
             input_variables=["history", "input"],  # Ensure history is an input variable
-            template="{history}\n{input}"  # Include history in template
+            template=f"{rules}\n\n{{history}}\n{{input}}"  # Include history in template
         )
         self.llm_chain = LLMChain(llm=self.llm, prompt=self.prompt_template, memory=self.memory)
 

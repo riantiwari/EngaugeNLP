@@ -5,10 +5,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="35c37619-afda-4b56-8cf6-548a17a3df3b" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/transcription.py" beforeDir="false" afterPath="$PROJECT_DIR$/transcription.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/vector_database/LlamaLLM.py" beforeDir="false" afterPath="$PROJECT_DIR$/vector_database/LlamaLLM.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vector_database/qdrant_manager.py" beforeDir="false" afterPath="$PROJECT_DIR$/vector_database/qdrant_manager.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -59,8 +58,8 @@
       <recent name="$PROJECT_DIR$" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
-      <recent name="$PROJECT_DIR$/vector_database" />
       <recent name="$PROJECT_DIR$" />
+      <recent name="$PROJECT_DIR$/vector_database" />
     </key>
   </component>
   <component name="SharedIndexes">
@@ -80,6 +79,7 @@
       <option name="presentableId" value="Default" />
       <updated>1729884283594</updated>
       <workItem from="1729884286924" duration="6728000" />
+      <workItem from="1731638676898" duration="1415000" />
     </task>
     <servers />
   </component>
