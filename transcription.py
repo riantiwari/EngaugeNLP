@@ -119,9 +119,9 @@ def transcribe_video_real_time(video_file, chunk_duration=20.0, overlap=2.0, qdr
                                 # This requires mapping sentences to segments
                                 # For simplicity, assign the current chunk's start_time
                                 timestamp = format_timestamp(seg_start)
-                                print(seg_start)
-                                print(f"{timestamp} - \"{sentence_text}\"")
-                                qdrant_manager.add_text(sentence_text, int(seg_start))
+                                # print(seg_start)
+                                # print(f"{timestamp} - \"{sentence_text}\"")
+                                qdrant_manager.add_text(sentence_text, int(seg_start), int(seg_end))
 
                                 with open('sample_visual_notes.txt') as file:
                                     lines = file.readlines()  # Reads all lines into a list
@@ -135,7 +135,7 @@ def transcribe_video_real_time(video_file, chunk_duration=20.0, overlap=2.0, qdr
                                             line_number += 1
                                             qdrant_manager.add_drawing_text(text, total_seconds)
 
-                                            print(f"Drawing:{timestamp} {text}")
+                                            # print(f"Drawing:{timestamp} {text}")
                                     else:
                                         print("Line number is out of range.")
 
@@ -160,7 +160,8 @@ def transcribe_video_real_time(video_file, chunk_duration=20.0, overlap=2.0, qdr
             # After processing all chunks, print any remaining text in the buffer with the end timestamp
             if buffer_text:
                 timestamp = format_timestamp(total_duration)
-                print(f"{timestamp} - \"{buffer_text}\"")
+                # print(f"{timestamp} - \"{buffer_text}\"")
+                print(f"{timestamp}")
 
     except Exception as e:
         print(f"Error processing video file: {e}")

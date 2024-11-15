@@ -47,12 +47,13 @@ class QdrantManager:
         )
         print(f"Collection '{self.collection_name}' created successfully")
 
-    def add_text(self, text: str, time_stamp):
+    def add_text(self, text: str, start_time, end_time):
         embedding = self.model.encode(text)
 
         metadata = {
             "text": text,
-            "time_stamp": time_stamp
+            "start_time": start_time,
+            "end_time": end_time
         }
 
         self.client.upsert(
@@ -97,9 +98,10 @@ class QdrantManager:
         drawing_context = []
 
         for result in results:
-            timestamp = int(result.payload['time_stamp'])
+            start_time = result.payload['start_time']
+            end_time = result.payload['end_time']
 
-            for timer in range(timestamp - 5, timestamp + 6):
+            for timer in range(start_time, end_time):
                 if timer in self.drawing_transcription:
                     text = self.drawing_transcription[timer]
                     drawing_context.append(text)
@@ -112,8 +114,10 @@ class QdrantManager:
         # Use LangChain's LLMChain to handle the prompt with history and context
         response = self.llm_chain.predict(input=input)
 
+        print(f"Human input: {input}")
+
         # Print memory for debugging
-        print("Conversation History in Memory:", self.memory.load_memory_variables({})['history'])
+        # print("Conversation History in Memory:", self.memory.load_memory_variables({})['history'])
 
         return response
 
