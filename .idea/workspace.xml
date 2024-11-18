@@ -6,7 +6,6 @@
   <component name="ChangeListManager">
     <list default="true" id="35c37619-afda-4b56-8cf6-548a17a3df3b" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vector_database/LlamaLLM.py" beforeDir="false" afterPath="$PROJECT_DIR$/vector_database/LlamaLLM.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/vector_database/qdrant_manager.py" beforeDir="false" afterPath="$PROJECT_DIR$/vector_database/qdrant_manager.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -100,7 +99,7 @@
       <workItem from="1731702846460" duration="1751000" />
       <workItem from="1731901342581" duration="10000" />
       <workItem from="1731901354853" duration="20000" />
-      <workItem from="1731901382105" duration="5998000" />
+      <workItem from="1731901382105" duration="11298000" />
     </task>
     <servers />
   </component>

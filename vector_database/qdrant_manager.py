@@ -18,7 +18,9 @@ class QdrantManager:
         self.current_id = 0
         self.model = SentenceTransformer('all-MiniLM-L6-v2')
         self.setup_collection()
-        self.drawing_transcription = {}
+
+        self.drawing_start_times = []
+        self.drawing_text = []
 
         # Initialize LLM and LangChain components
         self.llm = LlamaLLM()
@@ -115,20 +117,19 @@ class QdrantManager:
 
         drawing_context = set()
 
-        drawings = list(self.drawing_transcription.keys())
 
         for result in results:
             start_time = result.payload['start_time']
             end_time = result.payload['end_time']
 
-            index = self.special_binary_search(drawings, start_time)
+            index = self.special_binary_search(start_time)
 
             if index != -1:
-                while index < len(drawings) and drawings[index] <= end_time:
-                    drawing_context.add(self.drawing_transcription[drawings[index]]) # Doesn't add duplicates
+                while index < len(self.drawing_start_times) and self.drawing_start_times[index] <= end_time:
+                    drawing_context.add(self.drawing_text[index])
                     index += 1
 
-        combined_text = " ".join([result.payload['text'] for result in results])
+        combined_text = " ".join([ f" {result.payload['start_time']}:{result.payload['end_time']} {result.payload['text']}" for result in results])
         drawing_text = " ".join(drawing_context)
 
         input = f"Context: {combined_text}\nTeacher's Drawing: {drawing_text}\nUser: {prompt}\n"
@@ -143,30 +144,34 @@ class QdrantManager:
 
         return response
 
-    def special_binary_search(self, drawings: list, start_time):
+    def special_binary_search(self, start_time):
         start = 0
-        end = len(drawings) - 1
+        end = len(self.drawing_start_times) - 1
+
+        if start_time < self.drawing_start_times[0]:
+            return 0
+        elif start_time > self.drawing_start_times[len(self.drawing_start_times) - 1]:
+            return len(self.drawing_start_times) - 1
 
         while start <= end:
             mid = (start + end) // 2
 
-            if drawings[mid] == start_time:
+            if self.drawing_start_times[mid] == start_time:
                 return mid
-            elif drawings[mid] < start_time:
-                if mid + 1 < len(drawings) and drawings[mid + 1] > start_time: # Found the closest drawing
+            elif self.drawing_start_times[mid] < start_time:
+                if mid + 1 < len(self.drawing_start_times) and self.drawing_start_times[mid + 1] > start_time: # Found the closest drawing
                     return mid
-                elif mid + 1 >= len(drawings):
-                    return mid
-                else:
-                    end = mid - 1
-            else: # drawings[mid] > start_time
-                if mid - 1 >= 0 and drawings[mid - 1] < start_time:
-                    return mid - 1
                 else:
                     start = mid + 1
+            else: # self.drawing_start_times[mid] > start_time
+                if mid - 1 >= 0 and self.drawing_start_times[mid - 1] < start_time:
+                    return mid - 1
+                else:
+                    end = mid - 1
 
         return -1
 
 
     def add_drawing_text(self, text, time_stamp):
-        self.drawing_transcription[time_stamp] = text
+        self.drawing_text.append(text)
+        self.drawing_start_times.append(time_stamp)
