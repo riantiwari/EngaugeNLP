@@ -14,7 +14,7 @@ class LlamaLLM(LLM):
     def _call(self, prompt: str, stop=None):
         """Calls the local Llama model API with the prompt."""
         response = ollama.chat(
-            model="llama3.2",
+            model="llama3",
             messages=[
                 {"role": "user", "content": prompt },
             ],
