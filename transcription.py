@@ -9,12 +9,13 @@ import sys
 from vector_database.qdrant_manager import QdrantManager
 
 
+
 def format_timestamp(seconds):
     minutes = int(seconds // 60)
     secs = int(seconds % 60)
     return f"{minutes:02d}:{secs:02d}"
 
-def transcribe_video_real_time(video_file, chunk_duration=20.0, overlap=2.0):
+def transcribe_video_real_time(video_file, chunk_duration=20.0, overlap=2.0, qdrant_manager: QdrantManager = None):
     """
     Transcribe a video file in real-time by sentences with accurate timestamps.
 
@@ -23,6 +24,8 @@ def transcribe_video_real_time(video_file, chunk_duration=20.0, overlap=2.0):
     - chunk_duration (float): Duration of each audio chunk in seconds.
     - overlap (float): Overlap duration between consecutive chunks in seconds.
     """
+    line_number = 0
+
     # Check if the video file exists
     if not os.path.isfile(video_file):
         print(f"Error: The video file '{video_file}' does not exist.")
@@ -30,8 +33,6 @@ def transcribe_video_real_time(video_file, chunk_duration=20.0, overlap=2.0):
 
     # Initialize the Whisper model
     model = whisper.load_model("small")
-
-    qdrant_manager = QdrantManager()
 
 
     # Load SpaCy model
@@ -118,9 +119,25 @@ def transcribe_video_real_time(video_file, chunk_duration=20.0, overlap=2.0):
                                 # This requires mapping sentences to segments
                                 # For simplicity, assign the current chunk's start_time
                                 timestamp = format_timestamp(seg_start)
-                                print(f"{timestamp} - \"{sentence_text}\"")
-                                qdrant_manager.add_text(f"{timestamp} - \"{sentence_text}\"")
+                                # print(seg_start)
+                                # print(f"{timestamp} - \"{sentence_text}\"")
+                                qdrant_manager.add_text(sentence_text, int(seg_start), int(seg_end))
 
+                                with open('sample_visual_notes.txt') as file:
+                                    lines = file.readlines()  # Reads all lines into a list
+                                    if line_number < len(lines):
+                                        timestamp, text = lines[line_number].split(' - ')
+
+                                        minutes, seconds = map(int, timestamp.split(":"))
+                                        total_seconds = minutes * 60 + seconds
+
+                                        if seg_start > total_seconds:
+                                            line_number += 1
+                                            qdrant_manager.add_drawing_text(text, total_seconds)
+
+                                            # print(f"Drawing:{timestamp} {text}")
+                                    else:
+                                        print("Line number is out of range.")
 
                         # Update buffer with the last (possibly incomplete) sentence
                         if sentences:
@@ -143,7 +160,8 @@ def transcribe_video_real_time(video_file, chunk_duration=20.0, overlap=2.0):
             # After processing all chunks, print any remaining text in the buffer with the end timestamp
             if buffer_text:
                 timestamp = format_timestamp(total_duration)
-                print(f"{timestamp} - \"{buffer_text}\"")
+                # print(f"{timestamp} - \"{buffer_text}\"")
+                print(f"{timestamp}")
 
     except Exception as e:
         print(f"Error processing video file: {e}")
@@ -151,7 +169,7 @@ def transcribe_video_real_time(video_file, chunk_duration=20.0, overlap=2.0):
     print("Transcription completed.")
 
 # Example usage
-if __name__ == "__main__":
-    print("Starting transcription...")
-    video_file = "sample_video.mp4"  # Replace with your video file path
-    transcribe_video_real_time(video_file, chunk_duration=20.0, overlap=2)
+# if __name__ == "__main__":
+#     print("Starting transcription...")
+#     video_file = "sample_video.mp4"  # Replace with your video file path
+#     transcribe_video_real_time(video_file, chunk_duration=20.0, overlap=2, qdrant_manager=QdrantManager())
