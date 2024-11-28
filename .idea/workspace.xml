@@ -6,16 +6,7 @@
   <component name="ChangeListManager">
     <list default="true" id="35c37619-afda-4b56-8cf6-548a17a3df3b" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app.py" beforeDir="false" afterPath="$PROJECT_DIR$/app.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lecture_simulator/lecture_input.txt" beforeDir="false" afterPath="$PROJECT_DIR$/miscellaneous/lecture_simulator/lecture_input.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lecture_simulator/simulate_lecture.py" beforeDir="false" afterPath="$PROJECT_DIR$/miscellaneous/lecture_simulator/simulate_lecture.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lecture_simulator/simulated_lecture_output.txt" beforeDir="false" afterPath="$PROJECT_DIR$/miscellaneous/lecture_simulator/simulated_lecture_output.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/newllama.py" beforeDir="false" afterPath="$PROJECT_DIR$/miscellaneous/newllama.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/query.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/requirements.txt" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/server.py" beforeDir="false" afterPath="$PROJECT_DIR$/server.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vector_database/LlamaLLM.py" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -143,7 +134,7 @@
       <workItem from="1732761789815" duration="14805000" />
       <workItem from="1732777016240" duration="92000" />
       <workItem from="1732777109962" duration="196000" />
-      <workItem from="1732777311767" duration="1880000" />
+      <workItem from="1732777311767" duration="3539000" />
     </task>
     <servers />
   </component>
