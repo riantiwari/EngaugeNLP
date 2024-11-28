@@ -1,9 +1,6 @@
 import streamlit as st
 from transcription import transcribe_video_real_time
 from vector_database.qdrant_manager import QdrantManager
-import time
-import threading
-from lecture_simulator.simulate_lecture import simulate_lecture_updates
 import threading
 
 

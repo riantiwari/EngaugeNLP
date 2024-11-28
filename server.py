@@ -45,7 +45,7 @@ async def create_collection(collection_name: str):
     if qdrant_manager:
         try:
             # Assuming QdrantManager has a method `create_collection` to create a collection
-            result = qdrant_manager.setup_collection(vector_size=384)
+            result = qdrant_manager.create_collection(collection_name=collection_name)
             if result:
                 # Return success response with 201 Created status
                 return JSONResponse(
@@ -61,3 +61,4 @@ async def create_collection(collection_name: str):
     else:
         # Return error response if qdrant_manager is not initialized
         raise HTTPException(status_code=500, detail="Qdrant client is not initialized.")
+
