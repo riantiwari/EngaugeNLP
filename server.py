@@ -1,15 +1,12 @@
-from flask_cors import CORS
-from flask import Flask
+from fastapi import FastAPI
 
-# Create a Flask instance
-app = Flask(__name__)
-CORS(app)
+# Create a FastAPI instance
+app = FastAPI()
 
-# Define a route for the root URL
-@app.route("/", methods=["GET"])
-def hello_world():
+# Define a GET endpoint
+@app.get("/")
+def read_root():
     return {"message": "Hello, World!"}
 
-# Run the application if this script is executed
-if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=8000)
+# Run this application using: uvicorn main:app --reload
+
