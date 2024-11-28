@@ -5,13 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="35c37619-afda-4b56-8cf6-548a17a3df3b" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/EngaugeNLP-Project.iml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app.py" beforeDir="false" afterPath="$PROJECT_DIR$/app.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server.py" beforeDir="false" afterPath="$PROJECT_DIR$/server.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/transcription.py" beforeDir="false" afterPath="$PROJECT_DIR$/transcription.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vector_database/LlamaLLM.py" beforeDir="false" afterPath="$PROJECT_DIR$/vector_database/LlamaLLM.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vector_database/qdrant_manager.py" beforeDir="false" afterPath="$PROJECT_DIR$/vector_database/qdrant_manager.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -131,7 +125,7 @@
       <workItem from="1732679612235" duration="1269000" />
       <workItem from="1732758276741" duration="3464000" />
       <workItem from="1732761753118" duration="33000" />
-      <workItem from="1732761789815" duration="12690000" />
+      <workItem from="1732761789815" duration="14805000" />
     </task>
     <servers />
   </component>

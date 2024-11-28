@@ -271,9 +271,5 @@ class QdrantManager:
         conversation_history.append(f"User: {prompt}")
         conversation_history.append(f"Assistant: {response}")
 
-        # Limit conversation history
-        # if len(conversation_history) >= 10:
-        #     conversation_history = collection_metadata['conversation_history'][-10:]
-
         return response
 
