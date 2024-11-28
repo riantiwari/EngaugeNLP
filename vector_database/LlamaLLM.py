@@ -2,9 +2,6 @@ from langchain.llms.base import LLM  # Correct import path
 import requests
 import ollama
 
-url = "http://localhost:11434/api/chat"
-
-
 # Custom LLM wrapper for Llama model
 class LlamaLLM(LLM):
     def __init__(self, **kwargs):

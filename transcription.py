@@ -15,7 +15,7 @@ def format_timestamp(seconds):
     secs = int(seconds % 60)
     return f"{minutes:02d}:{secs:02d}"
 
-def transcribe_video_real_time(video_file, chunk_duration=20.0, overlap=2.0, qdrant_manager: QdrantManager = None):
+def transcribe_video_real_time(video_file, chunk_duration=20.0, overlap=2.0, qdrant_manager: QdrantManager = None, collection_name="lecture_collection"):
     """
     Transcribe a video file in real-time by sentences with accurate timestamps.
 
@@ -121,7 +121,7 @@ def transcribe_video_real_time(video_file, chunk_duration=20.0, overlap=2.0, qdr
                                 timestamp = format_timestamp(seg_start)
                                 # print(seg_start)
                                 # print(f"{timestamp} - \"{sentence_text}\"")
-                                qdrant_manager.add_text(sentence_text, int(seg_start), int(seg_end))
+                                qdrant_manager.add_text(collection_name, sentence_text, int(seg_start), int(seg_end))
 
                                 with open('sample_visual_notes.txt') as file:
                                     lines = file.readlines()  # Reads all lines into a list
@@ -133,7 +133,7 @@ def transcribe_video_real_time(video_file, chunk_duration=20.0, overlap=2.0, qdr
 
                                         if seg_start > total_seconds:
                                             line_number += 1
-                                            qdrant_manager.add_drawing_text(text, total_seconds)
+                                            qdrant_manager.add_drawing_text(collection_name, text, total_seconds)
 
                                             # print(f"Drawing:{timestamp} {text}")
                                     else:

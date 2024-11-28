@@ -19,6 +19,8 @@ if "initialized" not in st.session_state:
 
     # Start threads
     st.session_state["qdrant_mgr"] = QdrantManager()
+    st.session_state["qdrant_mgr"].create_collection("lecture_collection")
+    st.session_state["conversation_history"] = []
     transcription_thread = threading.Thread(target=start_transcription, args=(st.session_state["qdrant_mgr"],))
     transcription_thread.start()
 
@@ -40,7 +42,7 @@ if user_input := st.chat_input():
 
         # Handle user input with Qdrant
         try:
-            response = st.session_state["qdrant_mgr"].chat(user_input)
+            response = st.session_state["qdrant_mgr"].chat("lecture_collection", user_input, st.session_state["conversation_history"])
         except Exception as e:
             response = f"An error occurred: {str(e)}"
 
