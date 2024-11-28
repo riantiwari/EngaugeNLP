@@ -112,6 +112,7 @@ class QdrantManager:
             raise ValueError(f"Collection '{collection_name}' does not exist")
 
         self.client.delete_collection(collection_name)
+        self.collections.pop(collection_name)
 
     def add_text(self, collection_name, text: str, start_time: int, end_time: int):
         """
