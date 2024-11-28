@@ -1,5 +1,5 @@
 from qdrant_client import QdrantClient
-from qdrant_client.http import models
+from qdrant_client.http.models import VectorParams, PointStruct, Distance
 from sentence_transformers import SentenceTransformer
 from langchain.chains import LLMChain
 from langchain.memory import ConversationBufferMemory
@@ -60,9 +60,9 @@ class QdrantManager:
 
         self.client.create_collection(
             collection_name=self.collection_name,
-            vectors_config=models.VectorParams(
+            vectors_config=VectorParams(
                 size=vector_size,
-                distance=models.Distance.COSINE
+                distance=Distance.COSINE
             )
         )
         print(f"Collection '{self.collection_name}' created successfully")
@@ -79,7 +79,7 @@ class QdrantManager:
         self.client.upsert(
             collection_name=self.collection_name,
             points=[
-                models.PointStruct(
+                PointStruct(
                     id=self.current_id,
                     vector=embedding.tolist(),
                     payload=metadata
