@@ -1,7 +1,16 @@
-from fastapi import FastAPI, HTTPException, Body
+import asyncio
+
+from fastapi import FastAPI, HTTPException, Body, File, UploadFile, WebSocket
 from fastapi.responses import JSONResponse
 from contextlib import asynccontextmanager
+
+from starlette.websockets import WebSocketDisconnect
+
 from vector_database.qdrant_manager import QdrantManager  # Assuming you have this class imported
+from whisper import load_model
+import tempfile
+import os
+
 
 # Global QdrantManager instance
 qdrant_manager: QdrantManager = None
@@ -10,9 +19,12 @@ qdrant_manager: QdrantManager = None
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     global qdrant_manager
+    global model
     print("Initializing QdrantManager...")
     # Initialize QdrantManager instance
     qdrant_manager = QdrantManager()
+    # Load the Whisper model
+    model = load_model("small", device='cpu')
 
     # Perform any setup with QdrantClient, like creating collections, etc.
     yield
@@ -30,6 +42,57 @@ async def read_root():
         return {"message": "Qdrant client is ready!"}
     else:
         return {"message": "Qdrant client is not initialized."}
+
+
+
+@app.websocket("/ws")
+async def websocket_endpoint(websocket: WebSocket):
+    await websocket.accept()
+    print("WebSocket connected.")
+
+    # Temporary storage for audio chunks
+    temp_audio = tempfile.NamedTemporaryFile(delete=False, suffix=".webm")
+    temp_audio_path = temp_audio.name
+    temp_audio.close()
+
+    try:
+        while True:  # Keep connection open until client disconnects
+            try:
+                # Wait for an audio chunk
+                audio_chunk = await websocket.receive_bytes()
+
+                # Append received chunk to the temporary audio file
+                with open(temp_audio_path, "ab") as f:
+                    f.write(audio_chunk)
+
+                # Process the audio chunk
+                result = model.transcribe(temp_audio_path)
+                transcription = result.get("text", "")
+                print(f"Transcription: {transcription}")
+
+                # Send transcription back to the frontend
+                await websocket.send_text(transcription)
+
+            except KeyboardInterrupt:
+                break
+
+            except asyncio.TimeoutError:
+                print("Timeout waiting for audio chunk.")
+                break
+
+            except WebSocketDisconnect:
+                print("Client disconnected.")
+                break
+
+    except Exception as e:
+        print(f"WebSocket error: {e}")
+
+    finally:
+        # Cleanup temporary file
+        if os.path.exists(temp_audio_path):
+            os.remove(temp_audio_path)
+        print("WebSocket disconnected.")
+
 
 # Endpoint to create a collection
 @app.post("/create_collection/{collection_name}")
@@ -109,3 +172,4 @@ async def chat(collection_name: str, body: dict = Body(...)):
             raise HTTPException(status_code=500, detail=f"Error generating response: {str(e)}")
     else:
         raise HTTPException(status_code=500, detail="Qdrant client is not initialized.")
+
