@@ -268,9 +268,5 @@ class QdrantManager:
         # Generate response
         response = llama(prompt=input_text)
 
-        # Store conversation history
-        conversation_history.append(f"User: {prompt}")
-        conversation_history.append(f"Assistant: {response}")
-
         return response
 
