@@ -121,7 +121,7 @@ async def add_drawing_text(collection_name: str, text: str = Body(...), timestam
         raise HTTPException(status_code=500, detail="Qdrant client is not initialized.")
 
 # Endpoint for /chat
-@app.get("/chat/{collection_name}")
+@app.post("/chat/{collection_name}")
 async def chat(collection_name: str, body: dict = Body(...)):
     if qdrant_manager:
         try:
@@ -193,7 +193,7 @@ class LiveTranscriber:
                     text = result["text"].strip()
                     if text:
                         print("Transcription:", text)
-                        # add_text(collection_name="text", text=text, start_time=0, end_time=0)
+                        add_text(collection_name="lecture", text=text, start_time=0, end_time=0)
 
                     # Keep the last overlap_bytes of audio as context for next chunk
                     if len(pcm_buffer) > self.overlap_bytes:
@@ -241,7 +241,7 @@ async def websocket_endpoint(websocket: WebSocket):
     await websocket.accept()
     transcriber.start()
 
-    # create_collection("test")
+    create_collection("lecture")
 
     try:
         while True:
