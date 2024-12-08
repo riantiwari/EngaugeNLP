@@ -146,6 +146,7 @@ async def chat(collection_name: str, body: dict = Body(...)):
 
 class LiveTranscriber:
     def __init__(self, model_name="small", chunk_time=10, overlap_seconds=2):
+        self.process_thread = None
         self.model = whisper.load_model(model_name, device="cpu")
         self.is_running = False
         self.stop_event = Event()
@@ -219,6 +220,7 @@ class LiveTranscriber:
         self.process_thread.start()
 
     def stop(self):
+        print("Stopping NFA to DFA")
         self.is_running = False
         self.stop_event.set()
         if self.ffmpeg_proc:
