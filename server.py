@@ -220,7 +220,7 @@ class LiveTranscriber:
         self.process_thread.start()
 
     def stop(self):
-        print("Stopping NFA to DFA")
+        print("Stopping Websocket and Transcriber")
         self.is_running = False
         self.stop_event.set()
         if self.ffmpeg_proc:
